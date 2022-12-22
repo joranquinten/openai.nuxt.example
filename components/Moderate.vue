@@ -1,21 +1,9 @@
 <script setup lang="ts">
-interface ModerateResponse {
-  id?: string;
-  model?: string;
-  results?: ModerateResults[];
-}
-
-interface ModerateResults {
-  categories?: object;
-  category_scores?: object;
-  flagged?: boolean;
-}
-
 const input = ref("");
-const result = ref([] as ModerateResponse[]);
+const result = ref([] as string[]);
 
 const onSubmit = async (): Promise<void> => {
-  const response: ModerateResponse = await $fetch("/api/moderate", {
+  const response = await $fetch("/api/twoot", {
     method: "post",
     body: { message: input.value },
   });
@@ -28,7 +16,7 @@ const onSubmit = async (): Promise<void> => {
 <template>
   <div>
     <div class="input">
-      <input type="text" v-model="input" />
+      <input type="text" v-model="input" @keyup.enter="onSubmit" />
       <button type="submit" @click="onSubmit">Validate moderation</button>
     </div>
     <div class="output">

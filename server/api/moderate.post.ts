@@ -2,7 +2,7 @@ import { Configuration, OpenAIApi } from "openai";
 
 // it's an async function now!
 export default defineEventHandler(async (event) => {
-    const body = await readBody(event);
+    const body: { message: string} = await readBody(event);
 
     // setup the configuration
     const configuration = new Configuration({
@@ -14,7 +14,7 @@ export default defineEventHandler(async (event) => {
 
     // Make the call to the moderation endpoint
     const res = await openaiClient.createModeration({
-        input: body?.message,
+        input: body.message,
     });
 
     // return the result
